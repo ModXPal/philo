@@ -6,13 +6,13 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:31:28 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/31 11:57:52 by                  ###   ########.fr       */
+/*   Updated: 2021/12/31 14:02:31 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "do_action.h"
 
-# define STARVING 2
+#define STARVING 2
 
 int	put_down_forks(t_var *var, t_philosopher *philosopher)
 {
@@ -73,7 +73,7 @@ int	take_forks(t_var *var, t_philosopher *philosopher)
 		if (pthread_mutex_lock(&var->forks[philosopher->right_fork]) != 0)
 			error(MUTEX_LOCK_ERROR);
 	}
-	else if ( philosopher->state == STARVING)
+	else if (philosopher->state == STARVING)
 	{
 		if (pthread_mutex_lock(&var->forks[philosopher->right_fork]) != 0)
 			error(MUTEX_LOCK_ERROR);
