@@ -6,36 +6,37 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:32:38 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/29 16:34:11 by                  ###   ########.fr       */
+/*   Updated: 2022/01/09 17:57:49 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "timestamp.h"
 
-long	get_timestamp(struct timeval start)
+long	get_timestamp(long start)
 {
-	struct timeval	timestamp;
+	long			timestamp;
 	long			interval;
 
-	if (gettimeofday(&timestamp, NULL) == -1)
-		error(GETTIMEOFDAY_ERROR);
-	interval = (timestamp.tv_sec * 1000 - start.tv_sec * 1000)
-		+ (timestamp.tv_usec / 1000 - start.tv_usec / 1000);
+	timestamp = get_time();
+	interval = timestamp - start;
 	return (interval);
 }
 
-void	get_starting_timestamp(t_var *var)
+long	get_time(void)
 {
-	if (gettimeofday(&var->start, NULL) == -1)
+	struct timeval	timestamp;
+	long			time;
+
+	if (gettimeofday(&timestamp, NULL) == -1)
 		error(GETTIMEOFDAY_ERROR);
+	time = timestamp.tv_sec * 1000 + timestamp.tv_usec / 1000;
+	return (time);
 }
 
-long	elapsed_time(struct timeval start, struct timeval end)
+long	elapsed_time(long start, long end)
 {
 	long	interval;
 
-	interval = 0;
-	interval += (end.tv_sec * 1000 - start.tv_sec * 1000);
-	interval += (end.tv_usec / 1000 - start.tv_usec / 1000);
+	interval = end - start;
 	return (interval);
 }

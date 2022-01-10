@@ -18,13 +18,14 @@
 # include <sys/time.h>
 # include "struct.h"
 # include "timestamp.h"
+# include "is_philo_dead.h"
 
 # define FULL 0
 
-void	print_philo_eating(t_philosopher *philosopher);
-void	print_philo_sleeping(t_philosopher *philosopher);
-void	print_philo_thinking(t_philosopher *philosopher);
-void	print_philo_died(t_philosopher *philosopher);
-void	print_philo_takes_fork(t_philosopher *philosopher);
+void	print_philo_eating(t_philosopher *philosopher, t_var *var);
+void	print_philo_sleeping(t_philosopher *philosopher, t_var *var);
+void	print_philo_thinking(t_philosopher *philosopher, t_var *var);
+void	print_philo_died(t_philosopher *philosopher, t_var *var);
+void	print_philo_takes_fork(t_philosopher *philosopher, t_var *var);
 
 #endif

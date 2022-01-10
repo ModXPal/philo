@@ -44,6 +44,7 @@ int	init_all_mutex(t_var *var)
 	mutex_init(&var->mutex_die, 1);
 	mutex_init(&var->mutex_print, 1);
 	mutex_init(&var->mutex_max_eat, 1);
+	mutex_init(&var->mutex_state, 1);
 	return (SUCCESS);
 }
 
@@ -53,5 +54,6 @@ int	destroy_all_mutex(t_var *var)
 	mutex_destroy(&var->mutex_die, 1);
 	mutex_destroy(&var->mutex_print, 1);
 	mutex_destroy(&var->mutex_max_eat, 1);
+	mutex_destroy(&var->mutex_state, 1);
 	return (SUCCESS);
 }

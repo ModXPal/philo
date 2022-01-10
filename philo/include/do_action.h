@@ -25,7 +25,7 @@
 int	put_down_forks(t_var *var, t_philosopher *philosopher);
 int	eat(t_var *var, t_philosopher *philosopher);
 int	go_sleep(t_var *var, t_philosopher *philosopher);
-int	is_thinking(t_philosopher *philosopher);
+int	is_thinking(t_philosopher *philosopher, t_var *var);
 int	take_forks(t_var *var, t_philosopher *philosopher);
 
 #endif

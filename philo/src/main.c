@@ -6,7 +6,7 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:32:06 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/29 16:32:07 by rcollas          ###   ########.fr       */
+/*   Updated: 2022/01/09 17:39:12 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,24 @@ int	sit_at_table(void *functionPhilosopher)
 {
 	t_philosopher	*philosopher;
 	_Bool			philo_died;
+	t_var			*var;
 
 	philo_died = FALSE;
 	philosopher = functionPhilosopher;
-	while (philo_died == FALSE && philosopher->var->number_of_philosophers > 1
+	var = philosopher->var;
+	while (is_philo_dead(var) == FALSE && var->number_of_philosophers > 1
 		&& philosopher->meal_count < philosopher->max_meal)
 	{
-		if (is_philo_dead(philosopher->var, &philo_died) == TRUE)
+		if (is_philo_dead(var) == TRUE)
 			break ;
-		take_forks(philosopher->var, philosopher);
-		eat(philosopher->var, philosopher);
-		put_down_forks(philosopher->var, philosopher);
-		if (is_philo_dead(philosopher->var, &philo_died) == FALSE)
-			go_sleep(philosopher->var, philosopher);
-		if (is_philo_dead(philosopher->var, &philo_died) == FALSE)
-			is_thinking(philosopher);
-		if (is_philo_dead(philosopher->var, &philo_died) == TRUE)
+		take_forks(var, philosopher);
+		eat(var, philosopher);
+		put_down_forks(var, philosopher);
+		if (is_philo_dead(var) == FALSE)
+			go_sleep(var, philosopher);
+		if (is_philo_dead(var) == FALSE)
+			is_thinking(philosopher, var);
+		if (is_philo_dead(var) == TRUE)
 			break ;
 	}
 	return (SUCCESS);
@@ -40,11 +42,10 @@ int	sit_at_table(void *functionPhilosopher)
 int	run_thread(t_philosopher *philosophers, t_var *var)
 {
 	init_all_mutex(var);
-	get_starting_timestamp(var);
+	var->start = get_time();
 	thread_create_philosopher(philosophers);
-	thread_create_monitor(philosophers);
+	handle_philos_death(philosophers, var);
 	thread_join_philosopher(philosophers);
-	thread_join_monitor(philosophers);
 	destroy_all_mutex(var);
 	return (SUCCESS);
 }

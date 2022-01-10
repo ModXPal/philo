@@ -6,7 +6,7 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:33:19 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/29 16:33:19 by rcollas          ###   ########.fr       */
+/*   Updated: 2022/01/09 18:26:59 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,26 @@ typedef struct s_var {
 	int						time_to_die;
 	int						time_to_eat;
 	int						time_to_sleep;
-	int						philo_died;
+	_Bool					philo_died;
 	int						max_meal;
-	struct timeval			start;
+	long					start;
 	struct s_philosopher	*philosopher;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			mutex_die;
 	pthread_mutex_t			mutex_print;
 	pthread_mutex_t			mutex_max_eat;
+	pthread_mutex_t			mutex_state;
 }				t_var;
 
 typedef struct s_philosopher {
 	int			id;
-	int			right_fork;
-	int			left_fork;
 	int			state;
+	int			left_fork;
+	int			right_fork;
 	int			max_meal;
 	int			meal_count;
+	long		last_meal;
+	_Bool		has_forks;
 	pthread_t	philosopher;
 	pthread_t	monitor;
 	t_var		*var;

@@ -30,6 +30,7 @@ int	init_philosophers(t_var *var)
 		philosopher[i].left_fork = (i + 1) % var->number_of_philosophers;
 		philosopher[i].state = STARVING;
 		philosopher[i].max_meal = var->max_meal;
+		philosopher[i].has_forks = FALSE;
 		if (var->max_meal != -1)
 			philosopher[i].meal_count = 0;
 		else

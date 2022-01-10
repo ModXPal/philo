@@ -44,7 +44,7 @@ int	check_philos_number(char **argv)
 {
 	if (ft_atoi(argv[1]) == 0)
 	{
-		ft_putstr_fd("There should be at least\n", STDERR_FILENO);
+		ft_putstr_fd("There should be at least", STDERR_FILENO);
 		ft_putstr_fd(" one philosopher.\n", STDERR_FILENO);
 		return (ERROR);
 	}
