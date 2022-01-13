@@ -6,7 +6,7 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:33:05 by rcollas           #+#    #+#             */
-/*   Updated: 2022/01/09 17:49:35 by                  ###   ########.fr       */
+/*   Updated: 2022/01/12 16:32:11 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	refresh_timestamp(t_philosopher *philosopher, int state_to_check);
 void	is_philo_alive(t_philosopher *philosopher, t_var *var,
 			long timestamp, long end);
 int		handle_philos_death(t_philosopher *philosopher, t_var *var);
-int		get_philo_state(t_var *var,
-			t_philosopher *philosopher, int *philo_state);
+int		get_philo_state(t_var *var, t_philosopher *philosopher);
+_Bool	is_philo_starving(t_var *var, t_philosopher *philosopher);
 
 #endif

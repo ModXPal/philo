@@ -6,20 +6,12 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:32:01 by rcollas           #+#    #+#             */
-/*   Updated: 2022/01/10 12:29:05 by                  ###   ########.fr       */
+/*   Updated: 2022/01/12 17:08:16 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "is_philo_dead.h"
 #include "philosophers.h"
-
-int	get_philo_state(t_var *var, t_philosopher *philosopher, int *philo_state)
-{
-	pthread_mutex_lock(&var->mutex_state);
-	*philo_state = philosopher->state;
-	pthread_mutex_unlock(&var->mutex_state);
-	return (*philo_state);
-}
 
 _Bool	is_philo_dead(t_var *var)
 {

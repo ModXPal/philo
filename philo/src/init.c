@@ -6,7 +6,7 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:31:56 by rcollas           #+#    #+#             */
-/*   Updated: 2021/12/29 16:31:57 by rcollas          ###   ########.fr       */
+/*   Updated: 2022/01/13 14:13:21 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ int	init_philosophers(t_var *var)
 		philosopher[i].id = i;
 		philosopher[i].right_fork = i;
 		philosopher[i].left_fork = (i + 1) % var->number_of_philosophers;
-		philosopher[i].state = STARVING;
 		philosopher[i].max_meal = var->max_meal;
-		philosopher[i].has_forks = FALSE;
 		if (var->max_meal != -1)
 			philosopher[i].meal_count = 0;
 		else
@@ -56,6 +54,9 @@ int	init_table(t_var *var, char **argv)
 	if (!var->forks)
 		return (error(CALLOC_ERROR));
 	if (init_philosophers(var) == CALLOC_ERROR)
+	{
+		ft_free(var->forks);
 		return (CALLOC_ERROR);
+	}
 	return (SUCCESS);
 }

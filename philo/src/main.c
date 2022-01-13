@@ -6,7 +6,7 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:32:06 by rcollas           #+#    #+#             */
-/*   Updated: 2022/01/09 17:39:12 by                  ###   ########.fr       */
+/*   Updated: 2022/01/13 14:03:31 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,21 @@
 int	sit_at_table(void *functionPhilosopher)
 {
 	t_philosopher	*philosopher;
-	_Bool			philo_died;
 	t_var			*var;
 
-	philo_died = FALSE;
 	philosopher = functionPhilosopher;
 	var = philosopher->var;
-	while (is_philo_dead(var) == FALSE && var->number_of_philosophers > 1
+	while (is_philo_dead(var) == FALSE && var->number_of_philosophers > 0
 		&& philosopher->meal_count < philosopher->max_meal)
 	{
 		if (is_philo_dead(var) == TRUE)
 			break ;
 		take_forks(var, philosopher);
-		eat(var, philosopher);
+		if (var->number_of_philosophers != 1)
+			eat(var, philosopher);
 		put_down_forks(var, philosopher);
+		if (var->number_of_philosophers == 1)
+			return (FAIL);
 		if (is_philo_dead(var) == FALSE)
 			go_sleep(var, philosopher);
 		if (is_philo_dead(var) == FALSE)

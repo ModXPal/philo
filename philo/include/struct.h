@@ -34,15 +34,12 @@ typedef struct s_var {
 
 typedef struct s_philosopher {
 	int			id;
-	int			state;
 	int			left_fork;
 	int			right_fork;
 	int			max_meal;
 	int			meal_count;
 	long		last_meal;
-	_Bool		has_forks;
 	pthread_t	philosopher;
-	pthread_t	monitor;
 	t_var		*var;
 }				t_philosopher;
 

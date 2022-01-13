@@ -6,17 +6,15 @@
 /*   By: rcollas <rcollas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/29 16:31:28 by rcollas           #+#    #+#             */
-/*   Updated: 2022/01/10 11:47:54 by                  ###   ########.fr       */
+/*   Updated: 2022/01/13 14:10:56 by                  ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "do_action.h"
 
-#define STARVING 1
-
 int	put_down_forks(t_var *var, t_philosopher *philosopher)
 {
-	if (philosopher->id % 2 == 0)
+	if (philosopher->id % 2 != 0)
 	{
 		if (pthread_mutex_unlock(&var->forks[philosopher->left_fork]) != 0)
 			error(MUTEX_UNLOCK_ERROR);
@@ -25,9 +23,11 @@ int	put_down_forks(t_var *var, t_philosopher *philosopher)
 	}
 	else
 	{
-		if (pthread_mutex_unlock(&var->forks[philosopher->right_fork]) != 0)
-			error(MUTEX_UNLOCK_ERROR);
 		if (pthread_mutex_unlock(&var->forks[philosopher->left_fork]) != 0)
+			error(MUTEX_UNLOCK_ERROR);
+		if (var->number_of_philosophers == 1)
+			return (FAIL);
+		if (pthread_mutex_unlock(&var->forks[philosopher->right_fork]) != 0)
 			error(MUTEX_UNLOCK_ERROR);
 	}
 	return (SUCCESS);
@@ -35,9 +35,6 @@ int	put_down_forks(t_var *var, t_philosopher *philosopher)
 
 int	eat(t_var *var, t_philosopher *philosopher)
 {
-	pthread_mutex_lock(&philosopher->var->mutex_state);
-	philosopher->state = EAT;
-	pthread_mutex_unlock(&philosopher->var->mutex_state);
 	pthread_mutex_lock(&philosopher->var->mutex_die);
 	if (philosopher->max_meal != -1)
 		philosopher->meal_count++;
@@ -47,9 +44,6 @@ int	eat(t_var *var, t_philosopher *philosopher)
 	philosopher->last_meal = get_time();
 	pthread_mutex_unlock(&var->mutex_die);
 	ft_sleep(var->time_to_eat, var);
-	pthread_mutex_lock(&var->mutex_state);
-	philosopher->state = FULL;
-	pthread_mutex_unlock(&var->mutex_state);
 	return (SUCCESS);
 }
 
@@ -70,19 +64,25 @@ int	take_forks(t_var *var, t_philosopher *philosopher)
 {
 	if (philosopher->id % 2 != 0)
 	{
-		usleep(1000);
-		if (pthread_mutex_lock(&var->forks[philosopher->left_fork]) != 0)
-			error(MUTEX_LOCK_ERROR);
+		usleep(3000);
 		if (pthread_mutex_lock(&var->forks[philosopher->right_fork]) != 0)
 			error(MUTEX_LOCK_ERROR);
 	}
 	else
-	{
-		if (pthread_mutex_lock(&var->forks[philosopher->right_fork]) != 0)
+		if (pthread_mutex_lock(&var->forks[philosopher->left_fork]) != 0)
 			error(MUTEX_LOCK_ERROR);
+	print_philo_takes_fork(philosopher, var);
+	if (var->number_of_philosophers == 1)
+		return (FAIL);
+	if (philosopher->id % 2 != 0)
+	{
+		usleep(3000);
 		if (pthread_mutex_lock(&var->forks[philosopher->left_fork]) != 0)
 			error(MUTEX_LOCK_ERROR);
 	}
+	else
+		if (pthread_mutex_lock(&var->forks[philosopher->right_fork]) != 0)
+			error(MUTEX_LOCK_ERROR);
 	print_philo_takes_fork(philosopher, var);
 	return (SUCCESS);
 }
